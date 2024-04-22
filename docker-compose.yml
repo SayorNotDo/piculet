@@ -1,0 +1,30 @@
+version: '3.4'
+services:
+  db:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_PASSWORD: secret_password
+      POSTGRES_USER: postgres
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  development:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql://postgres:secret_password@db:5432/postgres?sslmode=disable
+
+    command: sleep infinity
+
+    working_dir: /workspace
+
+    depends_on:
+      - db
+
+volumes:
+  target:
+  node_modules:

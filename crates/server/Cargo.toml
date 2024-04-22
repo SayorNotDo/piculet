@@ -1,0 +1,40 @@
+[package]
+name = "server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+axum = "0.7.5"
+db = { version = "0.1.0", path = "../db" }
+http = "1.1.0"
+# Types
+serde = { version = "1.0.198", features = ["derive"] }
+
+# Tokio runtime
+tokio = { version = "1.37.0", default-features = false, features = ["macros", "fs", "rt-multi-thread"] }
+
+# Database
+uuid = { version = "1.8.0", features = ["v4"] }
+
+# Cryptographic
+hex = "0.4.3"
+crypto-utils = "0.4.1"
+
+# Logger
+tracing = { version = "0.1.40", features = ["max_level_debug", "release_max_level_info", "log"] }
+tracing-subscriber = "0.3.18"
+
+# Backtrace in panic hook
+backtrace = "0.3.71"
+
+
+# Errors
+anyhow = "1.0.82"
+
+# Config
+toml = "0.8.12"
+
+# CLI
+clap = { version = "4.5.4", features = ["derive"] }
