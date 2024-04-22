@@ -5,7 +5,6 @@ CREATE TABLE users
     id                            SERIAL PRIMARY KEY,
     uuid                          UUID      NOT NULL,
     username                      VARCHAR   NOT NULL UNIQUE,
-    email                         VARCHAR   NOT NULL UNIQUE,
     hashed_password               VARCHAR   NOT NULL,
     reset_password_selector       VARCHAR,
     reset_password_sent_at        TIMESTAMP,
@@ -13,13 +12,6 @@ CREATE TABLE users
     created_at                    TIMESTAMP NOT NULL DEFAULT NOW(),
     updated_at                    TIMESTAMP NOT NULL DEFAULT NOW()
 );
-
-INSERT INTO users(email, hashed_password)
-VALUES ('test1@test1.com', 'aasdsaddasad');
-INSERT INTO users(email, hashed_password)
-VALUES ('test2@test1.com', 'aasdsaddasad');
-INSERT INTO users(email, hashed_password)
-VALUES ('test3@test1.com', 'aasdsaddasad');
 
 CREATE TABLE sessions
 (

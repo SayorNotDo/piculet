@@ -7,4 +7,5 @@ SELECT
 FROM users;
 
 --! insert_user
-INSERT INTO User() VALUES ()
+INSERT INTO User(uuid, username, hashed_password)
+VALUES (:uuid, :username, :hashed_password);
