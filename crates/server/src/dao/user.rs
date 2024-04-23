@@ -1,3 +1,4 @@
+use axum::Extension;
 use crypto_utils::sha::{Algorithm, CryptographicHash};
 use serde::Serialize;
 use uuid::Uuid;
@@ -5,9 +6,13 @@ use crate::errors::CustomError;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct User {
+    pub id: i32,
     pub uuid: Uuid,
     pub username: String,
-    pub password: String,
+    pub hashed_password: String,
+    pub email: String,
+    pub created_at: NavieDatetime,
+    pub updated_at: NavieDatetime,
 }
 
 impl User {
@@ -33,17 +38,22 @@ impl User {
         Self {
             uuid,
             username,
-            password,
+            hashed_password,
         }
     }
 }
 
-pub struct UserDao {}
+pub struct UserDao {
+    pool: db::Pool
+}
 
 impl UserDao {
-    pub async fn create_user(User: User) -> Result<(), CustomError> {
-        println!("{:?}", User);
-        Ok(())
+    fn new(Extension(pool): Extension<db::Pool>) -> Self {
+        UserDao{ pool }
+    }
+
+    async fn create_user(&self, user: User) -> Result<(), Err()> {
+
     }
 }
 
@@ -70,7 +80,7 @@ mod tests {
         let password = "password";
 
         let user = User::new(username, password, false);
-        assert_ne!(user.password, password)
+        assert_ne!(user.hashed_password, password)
     }
 
     #[tokio::test]
@@ -86,8 +96,7 @@ mod tests {
 
         let user = User::new(username, password, true);
         let result = db::queries::users::insert_user()
-        .bind(&client, &user.uuid, &user.username, &user.password).await.unwrap();
-        println!("---------------------{:?}", result);
+        .bind(&client, &user.uuid, &user.username, &user.hashed_password).await.unwrap();
 
         assert_eq!(1, 1)
     }
