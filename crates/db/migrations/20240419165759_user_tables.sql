@@ -2,15 +2,13 @@
 
 CREATE TABLE users
 (
-    id                            SERIAL PRIMARY KEY,
-    uuid                          UUID      NOT NULL,
-    username                      VARCHAR   NOT NULL UNIQUE,
-    hashed_password               VARCHAR   NOT NULL,
-    reset_password_selector       VARCHAR,
-    reset_password_sent_at        TIMESTAMP,
-    reset_password_validator_hash VARCHAR,
-    created_at                    TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at                    TIMESTAMP NOT NULL DEFAULT NOW()
+    id              SERIAL PRIMARY KEY,
+    uuid            UUID      NOT NULL,
+    username        VARCHAR   NOT NULL UNIQUE,
+    hashed_password VARCHAR   NOT NULL,
+    email           VARCHAR UNIQUE,
+    created_at      TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at      TIMESTAMP NOT NULL DEFAULT NOW()
 );
 
 CREATE TABLE sessions

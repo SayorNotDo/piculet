@@ -1,26 +1,22 @@
+use std::{fs::File, io::Write, path::Path};
+use std::net::SocketAddr;
+
+use axum::{extract::Extension, response::Json, Router, routing::get};
+use clap::Parser;
+use tracing::{error, info, warn};
+
+use config::Config;
+use db::User;
+pub use variables::*;
+
+use crate::errors::CustomError;
+
 mod config;
 mod errors;
 mod api;
 mod dao;
 mod variables;
 mod logger;
-
-use std::fs::File;
-use std::io::Write;
-
-use clap::Parser;
-use config::Config;
-
-use crate::errors::CustomError;
-use axum::{extract::Extension, response::Json, routing::get, Router};
-use std::net::SocketAddr;
-use std::process::exit;
-use axum::extract::Path;
-use db::User;
-
-use tracing::{error, info, warn};
-
-pub use variables::*;
 
 #[derive(Debug, Parser)]
 #[clap(
@@ -42,7 +38,7 @@ async fn main() {
     let args = Cli::parse();
 
     let config_path = args.config;
-    let database_url = args.database;
+    // let database_url = args.database;
 
     // if configuration file doesn't exist, create a default one
     if !Path::new(&config_path).exists() {
@@ -75,7 +71,7 @@ async fn main() {
     if config.http.enable_https {
         if !Path::new(&config.http.tls_cert).exists() || !Path::new(&config.http.tls_key).exists() {
             error!("TLS cert or/and key file not found!");
-            exit(1);
+            std::process::exit(1);
         }
     }
 

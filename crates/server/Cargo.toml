@@ -16,7 +16,7 @@ serde = { version = "1.0.198", features = ["derive"] }
 tokio = { version = "1.37.0", default-features = false, features = ["macros", "fs", "rt-multi-thread"] }
 
 # Database
-uuid = { version = "1.8.0", features = ["v4"] }
+uuid = { version = "0.8.2", features = ["serde", "v4"] }
 
 # Cryptographic
 hex = "0.4.3"

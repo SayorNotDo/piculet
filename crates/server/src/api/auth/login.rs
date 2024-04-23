@@ -1,7 +1,4 @@
-use axum::{extract::Extension, response::Json};
-use serde::{Deserialize};
-use crate::config::Config;
-use crate::errors::CustomError;
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize)]
 pub struct Request {
@@ -15,16 +12,4 @@ pub struct Response {
 }
 
 
-pub async fn login(Extension(pool): Extension<db::Pool>,
-                   Extension(config): Extension<Config>,
-                   request: Json<Request>,
-) -> Result<Json<Response>, CustomError> {
-    // 登录逻辑
-    let client = pool.get().await?;
-
-    let user = User::new(&request.username, &request.password, false);
-
-    let response = match {};
-
-    Ok(Json())
-}
+pub async fn login() {}

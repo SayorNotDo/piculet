@@ -12,6 +12,8 @@ fn cornucopia() {
     let out_dir = env::var_os("OUT_DIR").unwrap();
     let file_path = Path::new(&out_dir).join("cornucopia.rs");
 
+    println!("cargo:file_path={:?}", file_path);
+
     let db_url = env::var_os("DATABASE_URL").unwrap();
 
     // Rerun this build script if the queries or migrations change.

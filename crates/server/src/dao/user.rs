@@ -5,7 +5,7 @@ use crate::errors::CustomError;
 
 #[derive(Debug, PartialEq, Eq, PartialOrd, Ord, Serialize)]
 pub struct User {
-    pub uuid: String,
+    pub uuid: Uuid,
     pub username: String,
     pub password: String,
 }
@@ -25,9 +25,9 @@ impl User {
 
         // generate UUID
         let uuid = if gen_uuid {
-            Uuid::new_v4().to_string()
+            Uuid::new_v4()
         } else {
-            "none".to_string()
+            Uuid::nil()
         };
 
         Self {
@@ -38,14 +38,12 @@ impl User {
     }
 }
 
-pub struct UserDao {
-    pub pool: db::Pool
-}
+pub struct UserDao {}
 
 impl UserDao {
-    pub async fn create_user(&self) -> Result<User, CustomError> {
-        let client = self.pool.get().await?;
-        let user = db::queries::users::create_user(&client).await?;
+    pub async fn create_user(User: User) -> Result<(), CustomError> {
+        println!("{:?}", User);
+        Ok(())
     }
 }
 
@@ -73,5 +71,24 @@ mod tests {
 
         let user = User::new(username, password, false);
         assert_ne!(user.password, password)
+    }
+
+    #[tokio::test]
+    async fn test_create_user() {
+        let username = "username";
+        let password = "password";
+
+        let db_url = std::env::var("DATABASE_URL").unwrap();
+
+        let pool = db::create_pool(&db_url);
+
+        let client = pool.get().await.unwrap();
+
+        let user = User::new(username, password, true);
+        let result = db::queries::users::insert_user()
+        .bind(&client, &user.uuid, &user.username, &user.password).await.unwrap();
+        println!("---------------------{:?}", result);
+
+        assert_eq!(1, 1)
     }
 }

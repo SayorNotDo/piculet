@@ -1,4 +1,4 @@
-use std::{backtrace, panic, thread};
+use std::{panic, thread};
 
 use tracing::{error, level_filters::LevelFilter};
 
