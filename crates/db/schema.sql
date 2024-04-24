@@ -6,5 +6,5 @@ CREATE TABLE users
     hashed_password VARCHAR   NOT NULL,
     email           VARCHAR   NOT NULL,
     created_at      TIMESTAMP NOT NULL DEFAULT NOW(),
-    updated_at      TIMESTAMP NOT NULL DEFAULT NOW()
+    updated_at      TIMESTAMP NOT NULL DEFAULT NOW() ON UPDATE NOW()
 );
