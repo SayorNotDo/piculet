@@ -1,4 +1,6 @@
+use axum::Json;
 use serde::{Deserialize, Serialize};
+use crate::dao::user::{User, UserDao};
 
 #[derive(Debug, Deserialize)]
 pub struct Request {
@@ -12,4 +14,8 @@ pub struct Response {
 }
 
 
-pub async fn login() {}
+pub async fn login(request: Json<Request>) {
+    let user = User::new(&request.username, &request.password, false);
+    let user_dao = UserDao::new();
+    let response = match User {  };
+}

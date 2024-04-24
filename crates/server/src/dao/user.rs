@@ -56,7 +56,7 @@ pub struct UserDao {
 }
 
 impl UserDao {
-    fn new(Extension(pool): Extension<db::Pool>) -> Self {
+    pub fn new(Extension(pool): Extension<db::Pool>) -> Self {
         UserDao { pool }
     }
 }

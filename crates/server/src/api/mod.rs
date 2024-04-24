@@ -8,5 +8,6 @@ pub async fn health() -> &'static str {
 
 pub fn app() -> Router {
     Router::new()
+        .nest("/auth", auth::app())
         // .route("/health", get(health()))
 }
